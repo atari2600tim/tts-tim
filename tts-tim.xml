@@ -135,8 +135,8 @@ elseif arg == "voice" then
   local oldVoice = ttsGetCurrentVoice()
   local sz = table.getn(voiceList)
   local count = 1
-  for k,v in pairs(voiceList) do
-    if oldVoice == voiceList[count] then
+  for _,v in pairs(voiceList) do
+    if oldVoice == v then
       ttsSetVoiceByIndex((count % sz) +1)
     end
     count = count + 1
@@ -152,18 +152,18 @@ elseif arg == "resume" or arg == "unpause" then
   ttsResume()
 
 elseif arg == "status" then
-  output = "Current speed is "..ttsGetRate()..". Pitch is "..ttsGetPitch()..". Voice is "..ttsGetCurrentVoice().."."
+  output = "Current speed is "..ttsGetRate()..". Pitch is "..ttsGetPitch()..". Volume is "..ttsGetVolume()..". Voice is "..ttsGetCurrentVoice().."."
   echo(output)
   ttsQueue(output)
 elseif arg == "help" then
-  output = "TTS commands are stop, repeat, help, faster, slower, higher, lower, pause, resume, voice, louder, softer.\n"
+  output = "TTS commands are help, stop, repeat, faster, slower, louder, softer, higher, lower, pause, resume, voice, status.\n"
   echo(output)
   ttsQueue(output)
 end
 </script>
 			<command></command>
 			<packageName></packageName>
-			<regex>tts (.*)</regex>
+			<regex>^tts (.*)</regex>
 		</Alias>
 	</AliasPackage>
 	<ActionPackage />
