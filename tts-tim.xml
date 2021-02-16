@@ -63,7 +63,7 @@ if arg == "stop" then
   ttsSkip()
   output = "Stopped"
   echo(output)
-  ttsQueue(output)
+  ttsSpeak(output)
 elseif arg == "repeat" then
   output = table.concat(getLines(getLineNumber()-5, getLineNumber())," ")
   echo("TTS repeating last lines: "..output)
@@ -140,6 +140,7 @@ elseif arg == "softer" then
     ttsQueue(output)
   else
     if risk == nil then
+      -- see https://github.com/Mudlet/Mudlet/issues/4698
       output = "Changing volume crashes Tim's computer.  Type 'tts risk' to unlock volume anyway"
       ttsQueue(output)
       echo(output)
@@ -184,11 +185,28 @@ elseif arg == "voice" then
   ttsQueue(output)
 
 elseif arg == "skip" then
+  if ttsGetState() == "ttsSpeechReady" and table.getn(ttsGetQueue()) &gt; 0 then
+    echo("avoiding a skip bug\n")
+    return -- cheap hack, see https://github.com/Mudlet/Mudlet/issues/4737
+  end
   ttsSkip()
 elseif arg == "pause" then
   ttsPause()
 elseif arg == "resume" or arg == "unpause" then
   ttsResume()
+
+elseif arg == "dev" then
+  local voiceList = ttsGetVoices()
+  local oldVoice = ttsGetCurrentVoice()
+  local sz = table.getn(voiceList)
+  output = "ttsGetCurrentVoice: "..ttsGetCurrentVoice()
+  output = output.."\nttsGetVoices() shows "..sz.." voices available:\n  "
+  output = output..table.concat(voiceList,"\n  ")
+  output = output.."\nttsGetQueue() has "..table.getn(ttsGetQueue()).." lines"
+  output = output.."\nttsGetCurrentLine() has "..(ttsGetCurrentLine() or "nil")
+  output = output.."\nttsGetState() has "..ttsGetState()
+  echo(output)
+  --ttsQueue(output)
 
 elseif arg == "status" then
   output = "Current speed is "..ttsGetRate()..". Pitch is "..ttsGetPitch()..". Volume is "..ttsGetVolume()..". Voice is "..ttsGetCurrentVoice().."."
@@ -198,8 +216,7 @@ elseif arg == "help" then
   output = "TTS commands are help, stop, skip, repeat, faster, slower, louder, softer, higher, lower, pause, resume, voice, status.\n"
   echo(output)
   ttsQueue(output)
-end
-</script>
+end</script>
 				<command></command>
 				<packageName></packageName>
 				<regex>^tts (.*)</regex>
