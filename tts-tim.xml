@@ -55,7 +55,40 @@ end</script>
 			<regex></regex>
 			<Alias isActive="yes" isFolder="no">
 				<name>tts commands</name>
-				<script>local arg = matches[2]
+				<script>--[[
+TODO:
+
+use a variable in a mapping or whatever the lua equivalent is, so that I can
+have a namespace kind of thing to avoid conflict
+https://forums.mudlet.org/viewtopic.php?t=1211
+
+things like "stop" do not need announced, maybe have a debug mode variable to enable
+or a smaller window that can be made visible
+
+current_line - number of line that is being pointed at
+variable that is retained throughout session
+
+up - interrupt current speech and read previous line
+down - skip and start next line
+
+temporary trigger that happens at end of spoken line, it starts a timer
+
+the timer will reset your current line if you press nothing in certain time
+
+you can manually stop reviewing instead of waiting on the timer
+
+should I have something to notify of new next while reviewing old text?
+should it queue it up and then resume? should I hold a variable saying where
+I started reviewing, and then that timer starts at that line?
+
+"spell that"
+
+change speech trigger regex to skip empty lines
+
+
+--]]
+tts_tim = tts_tim or {}
+local arg = matches[2]
 local output
 local rate
 if arg == "stop" then
@@ -139,7 +172,7 @@ elseif arg == "softer" then
     echo(output)
     ttsQueue(output)
   else
-    if risk == nil then
+    if tts_tim.risk == nil then
       -- see https://github.com/Mudlet/Mudlet/issues/4698
       output = "Changing volume crashes Tim's computer.  Type 'tts risk' to unlock volume anyway"
       ttsQueue(output)
@@ -152,7 +185,7 @@ elseif arg == "softer" then
     ttsQueue(output)
   end
 elseif arg == "risk" then
-  risk = true
+  tts_tim.risk = true
   output = "Unlocking volume"
   ttsQueue(output)
   echo(output)
@@ -194,6 +227,19 @@ elseif arg == "pause" then
   ttsPause()
 elseif arg == "resume" or arg == "unpause" then
   ttsResume()
+  
+  
+elseif arg == "back" then
+  -- if not reviewing then start reviewing, go back 1 line and read getAreaExits
+  -- and set up an event for end of reading the message
+  tim_tts.cursor = tim_tts.cursor - 1
+elseif arg == "forward" then
+  tim_tts.cursor = tim_tts.cursor + 1
+  -- interrupt and go to next line and read it
+elseif arg == "end reviewing" then
+  tim_tts.cursor = nil
+elseif arg == "read" then
+  --read line that cursor is on
 
 elseif arg == "dev" then
   local voiceList = ttsGetVoices()
