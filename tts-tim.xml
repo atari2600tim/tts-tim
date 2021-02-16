@@ -2,32 +2,60 @@
 <!DOCTYPE MudletPackage>
 <MudletPackage version="1.001">
 	<TriggerPackage>
-		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-			<name>read everything</name>
-			<script>ttsQueue(matches[1])</script>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>tts-tim</name>
+			<script></script>
 			<triggerType>0</triggerType>
 			<conditonLineDelta>0</conditonLineDelta>
-			<mStayOpen>1</mStayOpen>
+			<mStayOpen>0</mStayOpen>
 			<mCommand></mCommand>
-			<packageName></packageName>
+			<packageName>tts-tim</packageName>
 			<mFgColor>#ff0000</mFgColor>
 			<mBgColor>#ffff00</mBgColor>
 			<mSoundFile></mSoundFile>
 			<colorTriggerFgColor>#000000</colorTriggerFgColor>
 			<colorTriggerBgColor>#000000</colorTriggerBgColor>
-			<regexCodeList>
-				<string>(.*)</string>
-			</regexCodeList>
-			<regexCodePropertyList>
-				<integer>1</integer>
-			</regexCodePropertyList>
-		</Trigger>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>read everything</name>
+				<script>local output
+output = matches[1]
+output = output:gsub("&lt;", "less than")
+output = output:gsub("&gt;", "greater than")
+if(output:match("%S")) then -- if string is not just whitespace
+  ttsQueue(output)
+end</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>1</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>(.*)</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+		</TriggerGroup>
 	</TriggerPackage>
 	<TimerPackage />
 	<AliasPackage>
-		<Alias isActive="yes" isFolder="no">
-			<name>tts commands</name>
-			<script>local arg = matches[2]
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>tts-tim</name>
+			<script></script>
+			<command></command>
+			<packageName>tts-tim</packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>tts commands</name>
+				<script>local arg = matches[2]
 local output
 local rate
 if arg == "stop" then
@@ -40,7 +68,7 @@ elseif arg == "repeat" then
   output = table.concat(getLines(getLineNumber()-5, getLineNumber())," ")
   echo("TTS repeating last lines: "..output)
   ttsQueue(output)
-  -- TODO currently this shows commands I typed and all that
+  -- TODO currently this shows commands I typed and all that I could filter out
 
 elseif arg == "faster" then
   rate = ttsGetRate()
@@ -49,8 +77,8 @@ elseif arg == "faster" then
     echo(output)
     ttsQueue(output)
   else
-    output = "speeding up from "..rate.." to "..(rate+0.25)
-    ttsSetRate(rate+0.25)
+    output = "speeding up from "..rate.." to "..(rate+0.1)
+    ttsSetRate(rate+0.1)
     echo(output)
     ttsQueue(output)
   end
@@ -61,12 +89,11 @@ elseif arg == "slower" then
     echo(output)
     ttsQueue(output)
   else
-    output = "slowing down from "..rate.." to "..(rate-0.25)
-    ttsSetRate(rate-0.25)
+    output = "slowing down from "..rate.." to "..(rate-0.1)
+    ttsSetRate(rate-0.1)
     echo(output)
     ttsQueue(output)
   end
-
 
 elseif arg == "higher" then
   rate = ttsGetPitch()
@@ -75,8 +102,8 @@ elseif arg == "higher" then
     echo(output)
     ttsQueue(output)
   else
-    output = "raising pitch from "..rate.." to "..(rate+0.25)
-    ttsSetPitch(rate+0.25)
+    output = "raising pitch from "..rate.." to "..(rate+0.1)
+    ttsSetPitch(rate+0.1)
     echo(output)
     ttsQueue(output)
   end
@@ -87,8 +114,8 @@ elseif arg == "lower" then
     echo(output)
     ttsQueue(output)
   else
-    output = "lowering pitch from "..rate.." to "..(rate-0.25)
-    ttsSetPitch(rate-0.25)
+    output = "lowering pitch from "..rate.." to "..(rate-0.1)
+    ttsSetPitch(rate-0.1)
     echo(output)
     ttsQueue(output)
   end
@@ -100,15 +127,15 @@ elseif arg == "louder" then
     echo(output)
     ttsQueue(output)
   else
-    output = "raising volume from "..rate.." to "..(rate+0.25)
-    ttsSetVolume(rate+0.25)
+    output = "raising volume from "..rate.." to "..(rate+0.1)
+    ttsSetVolume(rate+0.1)
     echo(output)
     ttsQueue(output)
   end
 elseif arg == "softer" then
   rate = ttsGetVolume()
   if rate == -1 then
-    output = "-1 is lowest pitch"
+    output = "-1 is lowest volume"
     echo(output)
     ttsQueue(output)
   else
@@ -118,8 +145,8 @@ elseif arg == "softer" then
       echo(output)
       return
     end
-    output = "lowering volume from "..rate.." to "..(rate-0.25)
-    ttsSetVolume(rate-0.25)
+    output = "lowering volume from "..rate.." to "..(rate-0.1)
+    ttsSetVolume(rate-0.1)
     echo(output)
     ttsQueue(output)
   end
@@ -129,23 +156,35 @@ elseif arg == "risk" then
   ttsQueue(output)
   echo(output)
 
-  
 elseif arg == "voice" then
   local voiceList = ttsGetVoices()
   local oldVoice = ttsGetCurrentVoice()
   local sz = table.getn(voiceList)
   local count = 1
+  if sz == 0 then
+    output = "Your list of available voices is empty."
+    ttsQueue(output)
+    echo(output)
+    return
+  end
   for _,v in pairs(voiceList) do
     if oldVoice == v then
       ttsSetVoiceByIndex((count % sz) +1)
     end
     count = count + 1
   end
-  output = "There are "..sz.." voices available.  Old voice was "..oldVoice..", new voice is "..ttsGetCurrentVoice().."."
+  if count &gt; sz   + 1 then
+    ttsSetVoiceByIndex(math.floor(math.random()*sz)+1)
+    output = "Your voice was set to "..oldVoice.." which is not in the list of "..sz.." available voices.\n"
+    output = output.."This seems odd. Switching to "..ttsGetCurrentVoice().."."
+  else
+    output = "There are "..sz.." voices available.  Old voice was "..oldVoice..", new voice is "..ttsGetCurrentVoice().."."
+  end
   echo(output)
   ttsQueue(output)
 
-
+elseif arg == "skip" then
+  ttsSkip()
 elseif arg == "pause" then
   ttsPause()
 elseif arg == "resume" or arg == "unpause" then
@@ -156,15 +195,16 @@ elseif arg == "status" then
   echo(output)
   ttsQueue(output)
 elseif arg == "help" then
-  output = "TTS commands are help, stop, repeat, faster, slower, louder, softer, higher, lower, pause, resume, voice, status.\n"
+  output = "TTS commands are help, stop, skip, repeat, faster, slower, louder, softer, higher, lower, pause, resume, voice, status.\n"
   echo(output)
   ttsQueue(output)
 end
 </script>
-			<command></command>
-			<packageName></packageName>
-			<regex>^tts (.*)</regex>
-		</Alias>
+				<command></command>
+				<packageName></packageName>
+				<regex>^tts (.*)</regex>
+			</Alias>
+		</AliasGroup>
 	</AliasPackage>
 	<ActionPackage />
 	<ScriptPackage />
