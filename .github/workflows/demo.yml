@@ -33,8 +33,10 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           ls -tl /
-          echo src
-          ls -tl /src
+          echo tmp
+          ls -tl /tmp
+          echo run
+          ls -tl /run
           echo data
           ls -tl /data
           echo Done
