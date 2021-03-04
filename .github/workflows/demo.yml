@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: demonnic/muddler:latest
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -32,5 +32,10 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-          ls -tl /app
+      - name: Runs a script written by me
+        uses: docker://demonnic/muddler:latest
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+          ls -tl /
           echo Done.
