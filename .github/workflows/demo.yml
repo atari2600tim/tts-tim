@@ -33,6 +33,8 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           ls -tl /
-          echo asterisk
-          ls -tl /*
+          echo src
+          ls -tl /src
+          echo data
+          ls -tl /data
           echo Done
