@@ -32,10 +32,3 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-      - name: Runs a script written by me
-        uses: docker://demonnic/muddler:latest
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          ls -tl /
-          echo Done.
