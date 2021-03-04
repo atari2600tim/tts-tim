@@ -1,9 +1,6 @@
 [
   {
     "name": "tts commands",
-    "isActive": "yes",
-    "command": "",
     "regex": "^tts (.*)",
-    "script": "return true"
   }
 ]
