@@ -34,4 +34,4 @@ jobs:
           mkdir muddler
           tar xf muddler.tar -C muddler
           cd package
-          ../muddle-shadow-0.5/bin/muddle
+          ../muddler/muddle-shadow-0.5/bin/muddle
