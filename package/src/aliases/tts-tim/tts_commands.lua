@@ -1,61 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE MudletPackage>
-<MudletPackage version="1.001">
-	<TriggerPackage>
-		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-			<name>tts-tim</name>
-			<script></script>
-			<triggerType>0</triggerType>
-			<conditonLineDelta>0</conditonLineDelta>
-			<mStayOpen>0</mStayOpen>
-			<mCommand></mCommand>
-			<packageName>tts-tim</packageName>
-			<mFgColor>#ff0000</mFgColor>
-			<mBgColor>#ffff00</mBgColor>
-			<mSoundFile></mSoundFile>
-			<colorTriggerFgColor>#000000</colorTriggerFgColor>
-			<colorTriggerBgColor>#000000</colorTriggerBgColor>
-			<regexCodeList />
-			<regexCodePropertyList />
-			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-				<name>read everything</name>
-				<script>local output
-output = matches[1]
-output = output:gsub("&lt;", "less than")
-output = output:gsub("&gt;", "greater than")
-if(output:match("%S")) then -- if string is not just whitespace
-  ttsQueue(output)
-end</script>
-				<triggerType>0</triggerType>
-				<conditonLineDelta>0</conditonLineDelta>
-				<mStayOpen>1</mStayOpen>
-				<mCommand></mCommand>
-				<packageName></packageName>
-				<mFgColor>#ff0000</mFgColor>
-				<mBgColor>#ffff00</mBgColor>
-				<mSoundFile></mSoundFile>
-				<colorTriggerFgColor>#000000</colorTriggerFgColor>
-				<colorTriggerBgColor>#000000</colorTriggerBgColor>
-				<regexCodeList>
-					<string>(.*)</string>
-				</regexCodeList>
-				<regexCodePropertyList>
-					<integer>1</integer>
-				</regexCodePropertyList>
-			</Trigger>
-		</TriggerGroup>
-	</TriggerPackage>
-	<TimerPackage />
-	<AliasPackage>
-		<AliasGroup isActive="yes" isFolder="yes">
-			<name>tts-tim</name>
-			<script></script>
-			<command></command>
-			<packageName>tts-tim</packageName>
-			<regex></regex>
-			<Alias isActive="yes" isFolder="no">
-				<name>tts commands</name>
-				<script>local arg = matches[2]
+local arg = matches[2]
 local output
 local rate
 if arg == "stop" then
@@ -174,7 +117,7 @@ elseif arg == "voice" then
     end
     count = count + 1
   end
-  if count &gt; sz   + 1 then
+  if count > sz   + 1 then
     ttsSetVoiceByIndex(math.floor(math.random()*sz)+1)
     output = "Your voice was set to "..oldVoice.." which is not in the list of "..sz.." available voices.\n"
     output = output.."This seems odd. Switching to "..ttsGetCurrentVoice().."."
@@ -185,7 +128,7 @@ elseif arg == "voice" then
   ttsQueue(output)
 
 elseif arg == "skip" then
-  if ttsGetState() == "ttsSpeechReady" and table.getn(ttsGetQueue()) &gt; 0 then
+  if ttsGetState() == "ttsSpeechReady" and table.getn(ttsGetQueue()) > 0 then
     echo("avoiding a skip bug\n")
     return -- cheap hack, see https://github.com/Mudlet/Mudlet/issues/4737
   end
@@ -216,17 +159,4 @@ elseif arg == "help" then
   output = "TTS commands are help, stop, skip, repeat, faster, slower, louder, softer, higher, lower, pause, resume, voice, status.\n"
   echo(output)
   ttsQueue(output)
-end</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^tts (.*)</regex>
-			</Alias>
-		</AliasGroup>
-	</AliasPackage>
-	<ActionPackage />
-	<ScriptPackage />
-	<KeyPackage />
-	<VariablePackage>
-		<HiddenVariables />
-	</VariablePackage>
-</MudletPackage>
+end

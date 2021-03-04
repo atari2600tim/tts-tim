@@ -1,0 +1,6 @@
+[
+  {
+    "name": "tts commands",
+    "regex": "^tts (.*)",
+  }
+]

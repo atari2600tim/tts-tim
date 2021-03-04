@@ -1,0 +1,32 @@
+name: Muddler
+
+on:
+  push:
+  pull_request:
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+          
+      - name: Retrieve muddler
+        run: |
+          curl -L https://github.com/demonnic/muddler/releases/download/0.5/muddle-shadow-0.5.tar --output muddler.tar
+          mkdir muddler
+          tar xf muddler.tar -C muddler
+
+      - name: Build package with muddler
+        run: |
+          cd package
+          ../muddler/muddle-shadow-0.5/bin/muddle
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: tts-tim
+          path: package/build/tts-tim.mpackage
