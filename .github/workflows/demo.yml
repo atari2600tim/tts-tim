@@ -1,38 +1,27 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the action will run. 
 on:
   push:
   pull_request:
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
           
-      # Actual script
-      - name: Run my script
+      - name: Retrieve muddler
         run: |
-          echo Starting script
           curl -L https://github.com/demonnic/muddler/releases/download/0.5/muddle-shadow-0.5.tar --output muddler.tar
           mkdir muddler
           tar xf muddler.tar -C muddler
+
+      - name: Build package with muddler
+        run: |
           cd package
           ../muddler/muddle-shadow-0.5/bin/muddle
 
