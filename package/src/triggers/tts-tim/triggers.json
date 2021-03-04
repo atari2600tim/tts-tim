@@ -1,0 +1,11 @@
+[
+  {
+    "name": "read everything",
+    "patterns": [
+      {
+        "pattern": "(.*)",
+        "type": "regex"
+      }
+    ]
+  }
+]
