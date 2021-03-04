@@ -39,6 +39,6 @@ jobs:
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: tts-tim.mpackage
+          name: tts-tim
           path: package/build/tts-tim.mpackage
           retention-days: 5
