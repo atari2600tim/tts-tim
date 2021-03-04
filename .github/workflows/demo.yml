@@ -35,3 +35,10 @@ jobs:
           tar xf muddler.tar -C muddler
           cd package
           ../muddler/muddle-shadow-0.5/bin/muddle
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: package/build/tts-tim.mpackage
+          retention-days: 5
