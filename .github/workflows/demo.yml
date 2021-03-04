@@ -34,7 +34,7 @@ jobs:
           echo test, and deploy your project.
           echo pwd
           pwd
-          echo ls period
+          echo ls period.
           ls -tl .
           echo tree period
           tree .
