@@ -24,9 +24,12 @@ jobs:
         run: |
           cd package
           ../muddler/muddle-shadow-0.5/bin/muddle
+          cd build
+          mv tmp tts-tim
+          cd ../..
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
           name: tts-tim
-          path: package/build/tts-tim.mpackage
+          path: package/build/tts-tim/
